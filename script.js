@@ -180,7 +180,7 @@ function checkLevel() {
     let newLevel = Math.floor(score / levelScore) + 1;
     if(newLevel > level){
         level = newLevel;
-        dropInterval = Math.max(100, dropInterval - 100);
+        dropInterval = Math.max(100, dropInterval - 20);
         updateScoreLevel();
     }
 }
