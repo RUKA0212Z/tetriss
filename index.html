@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>테트리스 게임</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: #000;
+            color: #fff;
+            font-family: sans-serif;
+        }
+
+        #game {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        #restartBtn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        /* 모바일 조작 버튼 */
+        #mobile-controls {
+            position: fixed;
+            bottom: 20px;   /* 화면 하단에서 띄움 */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;  /* 항상 위 */
+        }
+
+        #mobile-controls button {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            border-radius: 12px;
+            border: none;
+            background: #333;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        #mobile-controls button:active {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="scoreLevel">점수: 0 / LEVEL 1</h1>
+
+    <div id="game">
+        <canvas id="tetris" width="300" height="600"></canvas>
+        <canvas id="next" width="120" height="120"></canvas>
+    </div>
+
+    <button id="restartBtn">게임 시작</button>
+
+<div id="mobile-controls">
+    <button id="rotateBtn">⟳</button>
+    <div id="direction-buttons">
+        <button id="leftBtn">◀</button>
+        <button id="downBtn">▼</button>
+        <button id="rightBtn">▶</button>
+    </div>
+</div>
+
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
