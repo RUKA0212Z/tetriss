@@ -186,19 +186,42 @@ function checkLevel() {
 }
 
 // ====================== 모바일 버튼 바인딩 ======================
-function bindControl(btnId, action) {
+function bindHoldControl(btnId, action) {
     const btn = document.getElementById(btnId);
-    ["touchstart", "click"].forEach(eventType => {
-        btn.addEventListener(eventType, (e) => {
-            e.preventDefault();
-            if(gameStarted) action();
-        });
+    let interval;
+
+    btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        if (gameStarted) {
+            action(); // 즉시 한 번 실행
+            interval = setInterval(action, 100); // 100ms마다 반복 실행
+        }
     });
+
+    btn.addEventListener("touchend", () => {
+        clearInterval(interval);
+    });
+
+    btn.addEventListener("touchcancel", () => {
+        clearInterval(interval);
+    });
+
+    // PC에서도 마우스로 길게 누를 수 있게 (선택)
+    btn.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        if (gameStarted) {
+            action();
+            interval = setInterval(action, 100);
+        }
+    });
+    btn.addEventListener("mouseup", () => clearInterval(interval));
+    btn.addEventListener("mouseleave", () => clearInterval(interval));
 }
-bindControl("leftBtn", () => { pos.x--; if(collide()) pos.x++; });
-bindControl("rightBtn", () => { pos.x++; if(collide()) pos.x--; });
-bindControl("downBtn", () => drop());
-bindControl("rotateBtn", () => {
+
+bindHoldControl("leftBtn", () => { pos.x--; if(collide()) pos.x++; });
+bindHoldControl("rightBtn", () => { pos.x++; if(collide()) pos.x--; });
+bindHoldControl("downBtn", () => drop());
+bindHoldControl("rotateBtn", () => {
     let rotated = current.matrix[0].map((_,i)=>current.matrix.map(r=>r[i]).reverse());
     let prev=current.matrix;
     current.matrix=rotated;
@@ -229,7 +252,7 @@ function adjustLayout() {
     const mobileControls = document.getElementById('mobile-controls');
     mobileControls.style.display = 'flex'; // PC/Mobile 모두 보이도록
     mobileControls.style.position = 'absolute';
-    mobileControls.style.top = (canvas.offsetTop + ROW * SQ * scale + 120) + "px";
+    mobileControls.style.top = (canvas.offsetTop + ROW * SQ * scale + 70) + "px";
     mobileControls.style.left = '50%';
     mobileControls.style.transform = 'translateX(-50%)';
     mobileControls.style.gap = '15px';
